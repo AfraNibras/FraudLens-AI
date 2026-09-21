@@ -1,133 +1,154 @@
-# FraudLens AI
+# 🛡️ FraudLens AI
 
-## Explainable AI-Based Fraud Detection & Investigation Platform
+### Explainable AI-Based Fraud Detection and Investigation Platform
 
-FraudLens AI is an end-to-end machine learning and explainable AI platform designed to detect potentially fraudulent financial transactions, assign risk levels, investigate individual transactions, explain model decisions, and analyze suspicious relationships between accounts.
+FraudLens AI is a machine-learning-powered fraud detection and investigation platform designed to identify suspicious financial transactions, assign transaction risk scores, explain model decisions, and analyze relationships between suspicious accounts.
 
-The platform combines machine learning, behavioral feature engineering, risk scoring, SHAP-based explainability, graph analysis, and an interactive Streamlit dashboard into a unified fraud investigation workflow.
-
----
-
-## Project Overview
-
-Traditional fraud detection systems often provide only a binary prediction such as:
-
-> Fraud / Not Fraud
-
-FraudLens AI extends this approach by providing an investigation-oriented workflow.
-
-For each transaction, the platform can provide:
-
-- Fraud probability
-- Risk score
-- Risk category
-- Investigation priority
-- Transaction-level details
-- Explainable AI factors
-- Suspicious account relationships
-- Interactive visual analytics
-
-The goal is to support analysts in understanding **why a transaction may be suspicious**, rather than relying only on a machine learning prediction.
+The platform combines **XGBoost, Logistic Regression, SHAP, NetworkX, Plotly, and Streamlit** into an integrated fraud investigation workflow.
 
 ---
 
-## Key Features
+## 🚀 Project Overview
 
-### 1. Machine Learning Fraud Detection
+Traditional fraud detection systems often focus primarily on predicting whether a transaction is fraudulent.
 
-FraudLens AI uses supervised machine learning models to identify potentially fraudulent transactions.
+FraudLens AI extends this approach by combining:
 
-Implemented models include:
+- 🤖 Machine Learning-based fraud detection
+- 📊 Transaction risk scoring
+- 🧠 Explainable AI using SHAP
+- 🔍 Individual transaction investigation
+- 🕸️ Fraud relationship and network analysis
+- 📈 Interactive analytics
+- 🖥️ Streamlit-based investigation dashboard
+- 🧪 Automated model and artifact testing
 
-- Logistic Regression
-- XGBoost
-
-The system uses class balancing techniques because fraudulent transactions are significantly less common than legitimate transactions in the PaySim dataset.
-
----
-
-### 2. Behavioral Feature Engineering
-
-The system derives additional behavioral and financial features from the original transaction data.
-
-Examples include:
-
-- Origin balance change
-- Destination balance change
-- Origin balance error
-- Destination balance error
-- Amount-to-origin-balance ratio
-- Amount-to-destination-balance ratio
-- Zero-balance indicators
-- Large transaction indicator
-- Log-transformed transaction amount
-- Transaction hour
-- Transaction day
-- Night-time indicator
-- Same origin/destination indicator
-
-These features provide additional behavioral information to the machine learning model.
+The objective is not only to identify potentially fraudulent transactions, but also to provide supporting evidence that can help an analyst investigate suspicious activity.
 
 ---
 
-### 3. Fraud Risk Scoring
+## ✨ Key Features
 
-Instead of displaying only a binary prediction, FraudLens AI converts the model probability into a risk score from 0 to 100.
+### 🤖 Machine Learning Fraud Detection
 
-Risk categories:
+Two classification models are implemented:
+
+- **Logistic Regression** — baseline model
+- **XGBoost** — primary fraud detection model
+
+The XGBoost model generates a fraud probability for each transaction.
+
+---
+
+### 🎯 Risk Scoring
+
+The predicted fraud probability is converted into a 0–100 risk score.
 
 | Risk Score | Category |
-|------------|----------|
-| 0–29 | LOW |
-| 30–59 | MEDIUM |
-| 60–79 | HIGH |
-| 80–100 | CRITICAL |
+|---:|---|
+| 0–29.99 | 🟢 LOW |
+| 30–59.99 | 🟡 MEDIUM |
+| 60–79.99 | 🟠 HIGH |
+| 80–100 | 🔴 CRITICAL |
 
-The platform also assigns an investigation priority based on the detected risk.
+The system also generates an investigation priority and recommended action.
 
 ---
 
-### 4. Explainable AI
+### 🧠 Explainable AI
 
-FraudLens AI uses SHAP (SHapley Additive exPlanations) to explain individual model predictions.
+FraudLens AI uses **SHAP (SHapley Additive exPlanations)** to explain individual XGBoost predictions.
 
-The Explainable AI module identifies:
+The explanation layer identifies:
 
 - Features increasing fraud risk
 - Features decreasing fraud risk
-- Strength of each feature contribution
-- Transaction-specific model reasoning
+- Relative contribution of important features
+- Evidence supporting an individual risk prediction
 
-This makes the machine learning model more interpretable for investigation purposes.
+This makes the model's output more interpretable for investigation.
 
 ---
 
-### 5. Transaction Investigation
+### 🕸️ Fraud Network Analysis
 
-The Transaction Investigation module allows users to inspect individual transactions.
+The platform uses **NetworkX** to represent suspicious transactions as a directed graph.
 
-The dashboard provides:
+- Accounts are represented as nodes.
+- Money transfers are represented as edges.
+- Transaction count is tracked.
+- Total transferred amount is tracked.
+- Maximum risk score is tracked.
+
+This helps reveal relationships between accounts involved in suspicious transactions.
+
+---
+
+### 🔍 Transaction Investigation
+
+An analyst can select an individual transaction and inspect:
 
 - Transaction amount
 - Transaction type
-- Origin account
-- Destination account
-- Fraud prediction
 - Fraud probability
 - Risk score
 - Risk category
 - Investigation priority
-- Recommended investigation action
+- Recommended action
 
 ---
 
-### 6. Fraud Network Analysis
+### 📊 Interactive Analytics
 
-Fraudulent activity can involve relationships between multiple accounts.
+The Streamlit dashboard provides interactive visualizations for:
 
-FraudLens AI uses NetworkX to model suspicious transaction relationships as a graph.
+- Risk distribution
+- Transaction type distribution
+- Transaction amount distribution
+- Risk score distribution
+- Risk by transaction type
+- Highest-risk transactions
+- Dataset inspection
 
-The graph represents:
+---
+
+# 🏗️ System Architecture
+
+The complete architecture is:
 
 ```text
-Origin Account → Destination Account
+PaySim Transaction Data
+          │
+          ▼
+Data Preprocessing
+          │
+          ▼
+Feature Engineering
+          │
+          ▼
+Machine Learning
+     ┌────┴────┐
+     ▼         ▼
+Logistic    XGBoost
+Regression  Primary Model
+     │         │
+     └────┬────┘
+          ▼
+    Model Evaluation
+          │
+          ▼
+   Fraud Prediction
+          │
+          ▼
+      Risk Score
+          │
+     ┌────┴─────┐
+     ▼          ▼
+   SHAP      NetworkX
+     │          │
+     └────┬─────┘
+          ▼
+ Fraud Investigation
+          │
+          ▼
+ Streamlit Dashboard

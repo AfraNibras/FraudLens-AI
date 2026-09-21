@@ -18,10 +18,6 @@ env/
 # VS Code
 .vscode/
 
-# Machine learning model files
-models/*.pkl
-models/*.joblib
-
 # Large datasets
 data/raw/*
 data/processed/*
